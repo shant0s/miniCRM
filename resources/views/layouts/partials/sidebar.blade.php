@@ -1,7 +1,7 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="../../index3.html" class="brand-link">
+    <a href="{{ url('/home') }}" class="brand-link">
         <span class="brand-text font-weight-light">{{ config('app.name', 'Laravel') }}</span>
     </a>
 
@@ -20,7 +20,7 @@
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="{{ route('company.index') }}" class="nav-link {{ (request()->is('company')) ? 'active' : '' }}">
+                    <a href="{{ route('company.index') }}" class="nav-link {{ (request()->is('company*')) ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Company
