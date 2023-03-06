@@ -56,7 +56,7 @@
                 </div>
             </div>
         </nav>
-
+        @include('layouts.partials.sidebar')
         <main class="py-4">
             @yield('content')
         </main>
