@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes([
@@ -24,4 +26,12 @@ Auth::routes([
     'verify' => false, // Email Verification Routes...
   ]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+ 
+
+Route::group(['middleware' => ['auth']], function(){
+  Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+  Route::resource('company', CompanyController::class);
+  Route::resource('employee', EmployeeController::class);
+});  
+
