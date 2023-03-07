@@ -5,17 +5,29 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
+use App\Services\Company\CompanyService;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class CompanyController extends Controller
 {
+
+    protected CompanyService $companyService;
+
+    public function __construct(CompanyService $companyService)
+    {
+        $this->companyService = $companyService;
+    }
+
+
     /**
      * Display a listing of the company.
      */
     public function index()
     {
-        $companies = Company::paginate(10);
+        $companies = $this->companyService->getPaginatedList(10);
 
         return view('company.index', compact('companies'));
     }
@@ -33,14 +45,7 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
-        if($request->file('image')){
-            $image      = $request->file('image');
-            $fileName   = $image->getClientOriginalName();
-            $image->storeAs('public/company', $fileName);
-            $request->merge(['logo' => $fileName])->all();
-        }
-       
-        $company = Company::create($request->except('image'));
+        $this->companyService->create($request);
 
         return redirect('company')->with('success', 'Company has been created');
     }
@@ -48,9 +53,9 @@ class CompanyController extends Controller
     /**
      * Display the specified company.
      */
-    public function show(string $id)
+    public function show(int $id)
     {
-        $company = Company::findOrFail($id);
+        $company = $this->companyService->getById($id);
         
         return view('company.view', compact('company'));
     }
@@ -58,9 +63,9 @@ class CompanyController extends Controller
     /**
      * Show the form for editing the specified company.
      */
-    public function edit(string $id)
+    public function edit(int $id)
     {
-        $company = Company::findOrFail($id);
+        $company = $this->companyService->getById($id);
         
         return view('company.edit', compact('company'));
     }
@@ -68,25 +73,9 @@ class CompanyController extends Controller
     /**
      * Update the specified company.
      */
-    public function update(UpdateCompanyRequest $request, string $id)
+    public function update(UpdateCompanyRequest $request, int $id)
     {
-        $company = Company::findOrFail($id);
-
-        if($request->file('image')){
-
-            $image      = $request->file('image');
-            $fileName   = $image->getClientOriginalName();
-            $image->storeAs('public/company', $fileName);
-            
-            if(file_exists(public_path('storage/company/'.$company->logo))){
-                unlink(public_path('storage/company/'.$company->logo));
-            }
-
-            $request->merge(['logo' => $fileName])->all();
-            
-        }
-        
-        $company->update($request->except('image'));
+        $this->companyService->update($request, $id);
 
         return redirect('company')->with('success', 'Company has been updated');
     }
@@ -94,10 +83,10 @@ class CompanyController extends Controller
     /**
      * Remove the specified company from storage.
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        $company = Company::findOrFail($id);
-        $company->delete();
+
+        $this->companyService->delete($id);
 
         return redirect('company')->with('success', 'Company deleted successfully!!');
     }

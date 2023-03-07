@@ -3,19 +3,7 @@
 @section('content')
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Companies</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Companies</li>
-                </ol>
-            </div>
-        </div>
-    </div><!-- /.container-fluid -->
+    @include('common.content_header', ['title' => 'Companies', 'url' => '/company'])
 </section>
 
 <!-- Main content -->
@@ -55,20 +43,23 @@
                                     <td>{{ $company->website }}</td>
                                     <td>
                                         <div class="d-flex">
-                                        <a href="{{ route('company.show', $company->id) }}"
-                                            class="btn btn-success mr-2"><i class="fa fa-eye"></i> View</a>
-                                        <a href="{{ route('company.edit', $company->id) }}"
-                                            class="btn btn-warning mr-2"><i class="fa fa-pen"></i> Edit</a>
-                                        <form action="{{ url('company/'.$company->id) }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <button class="btn btn-danger" type="submit"><i class="fa fa-trash"></i> Delete</button>
-                                        </form>
+                                            <a href="{{ route('company.show', $company->id) }}"
+                                                class="btn btn-success mr-2"><i class="fa fa-eye"></i> View</a>
+                                            <a href="{{ route('company.edit', $company->id) }}"
+                                                class="btn btn-warning mr-2"><i class="fa fa-pen"></i> Edit</a>
+                                            <form action="{{ url('company/'.$company->id) }}" id="delete-form"
+                                                method="POST">
+                                                @csrf
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <button class="btn btn-danger btn-delete-record" type="button"><i
+                                                        class="fa fa-trash"></i>
+                                                    Delete</button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>
                                 @empty
-                                <td colspan="5">No Record Found.</td>
+                                <td colspan="6">No Record Found.</td>
                                 @endforelse
                             </tbody>
                         </table>
@@ -84,4 +75,19 @@
     </div><!-- /.container-fluid -->
 </section>
 
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.btn-delete-record').click(function(e) {
+        e.preventDefault();
+        if (confirm('Are you sure?')) {
+            $(this).closest('form').submit();
+        }
+
+        return false;
+    })
+})
+</script>
 @endsection
