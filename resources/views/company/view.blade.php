@@ -32,8 +32,11 @@
                                 </tr>
                                 <tr>
                                     <th style="width: 40px">Logo</th>
-                                    <td><img src="{{ url('storage/company/'.$company->logo) }}" width="50"
-                                            height="50" /></td>
+                                    <td>
+                                        @if($company->logo)<img src="{{ url('storage/company/'.$company->logo) }}"
+                                            width="100" height="100" />
+                                        @endif
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th style="width: 40px">Website</th>

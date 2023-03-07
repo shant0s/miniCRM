@@ -37,8 +37,11 @@
                                     <td>{{ $company->id }}</td>
                                     <td>{{ $company->name }}</td>
                                     <td>{{ $company->email }}</td>
-                                    <td><img src="{{ url('storage/company/'.$company->logo) }}" width="50"
+                                    <td>
+                                        @if($company->logo)
+                                        <img src="{{ url('storage/company/'.$company->logo) }}" width="50"
                                             height="50" />
+                                        @endif
                                     </td>
                                     <td>{{ $company->website }}</td>
                                     <td>
