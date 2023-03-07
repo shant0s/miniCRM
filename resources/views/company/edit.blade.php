@@ -34,7 +34,8 @@
                                 @endif
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Email <span class="required text-danger">*</span></label>
+                                <label for="exampleInputPassword1">Email <span
+                                        class="required text-danger">*</span></label>
                                 <input type="email" name="email" class="form-control" placeholder="Email"
                                     value="{{ $company->email }}">
                                 @if($errors->has('email'))
@@ -48,6 +49,10 @@
                                 </div>
                                 @if($errors->has('image'))
                                 <div class="error text-danger">{{ $errors->first('image') }}</div>
+                                @endif
+                                <br>
+                                @if($company->logo)<label>Selected Logo: </label>&nbsp;&nbsp;&nbsp;<img src="{{ url('storage/company/'.$company->logo) }}" width="100"
+                                    height="100" />
                                 @endif
                             </div>
                             <div class="form-group">
