@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Company;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,7 +22,7 @@ class StoreCompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required | string',
+            'name' => 'required | string | unique:companies',
             'email' => 'email',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=100,height=100',
         ];

@@ -22,7 +22,7 @@
                         @csrf
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Name <span class="required">*</span></label>
+                                <label for="exampleInputEmail1">Name <span class="required text-danger">*</span></label>
                                 <input type="text" name="name" class="form-control" placeholder="Enter Name"
                                     value="{{ old('name') }}">
                                 @if($errors->has('name'))
@@ -30,7 +30,7 @@
                                 @endif
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Email</label>
+                                <label for="exampleInputPassword1">Email <span class="required text-danger">*</span></label>
                                 <input type="email" name="email" class="form-control" placeholder="Email"
                                     value="{{ old('email') }}">
                                 @if($errors->has('email'))

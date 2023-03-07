@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Employee;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCompanyRequest extends FormRequest
+class StoreEmployeeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,18 +22,16 @@ class UpdateCompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required | string',
-            'email' => 'required | email',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=100,height=100',
+            'firstname' => 'required | string',
+            'lastname' => 'required | string',
+            'company_id' => 'required',
         ];
     }
 
     public function messages()
     {
-        return[
-            'image' => [
-                'dimensions' => 'The :attribute dimension must be of 100 * 100'
-            ]
+        return [
+            'company_id.required' => 'The company field is required.',
         ];
     }
 }

@@ -21,6 +21,10 @@ namespace App\Repositories;
         return $this->model->all();
     }
 
+    public function pluckAll(){
+        return $this->model->all()->pluck('name', 'id');
+    }
+
     public function getById($id){
         return $this->model->findorFail($id);
     }

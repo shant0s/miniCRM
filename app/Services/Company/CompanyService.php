@@ -15,6 +15,9 @@ class CompanyService
         $this->companyRepository = $companyRepository;
     }
 
+    public function pluckAll(){
+        return $this->companyRepository->pluckAll();
+    }
     
     public function getPaginatedList($limit)
     {

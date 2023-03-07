@@ -22,10 +22,11 @@
                     <form action="{{ route('company.update', $company->id) }}" method="POST"
                         enctype="multipart/form-data">
                         <input type="hidden" value="PUT" name="_method">
+                        <input type="hidden" value="{{ $company->id }}" name="id">
                         @csrf
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Name <span class="required">*</span></label>
+                                <label for="exampleInputEmail1">Name <span class="required text-danger">*</span></label>
                                 <input type="text" name="name" class="form-control" placeholder="Enter Name"
                                     value="{{ $company->name }}">
                                 @if($errors->has('name'))
@@ -33,7 +34,7 @@
                                 @endif
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Email</label>
+                                <label for="exampleInputPassword1">Email <span class="required text-danger">*</span></label>
                                 <input type="email" name="email" class="form-control" placeholder="Email"
                                     value="{{ $company->email }}">
                                 @if($errors->has('email'))
