@@ -2,48 +2,86 @@
 
 namespace App\Repositories;
 
- class BaseRepository
+class BaseRepository
 {
     /**
-     * @var Model
+     * @var $model
      */
     public $model;
 
-    public function __construct($model){
+    /**
+     * @param $model
+     */
+    public function __construct($model)
+    {
         $this->model = $model;
     }
 
-    public function paginate($limit){
+    /**
+     * @param $limit
+     * @return mixed
+     */
+    public function paginate($limit)
+    {
         return $this->model->orderBy('id', 'DESC')->paginate($limit);
     }
 
-    public function all(){
+    /**
+     * @return mixed
+     */
+    public function all()
+    {
         return $this->model->all();
     }
 
-    public function pluckAll(){
+    /**
+     * @return mixed
+     */
+    public function pluckAll()
+    {
         return $this->model->all()->pluck('name', 'id');
     }
 
-    public function getById($id){
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getById($id)
+    {
         return $this->model->findorFail($id);
     }
 
-    public function store($input){
+    /**
+     * @param $input
+     * @return mixed
+     */
+    public function store($input)
+    {
         $model = $this->model->newInstance($input);
         $model->save();
 
         return $model;
     }
 
-    public function update($input, $model){
+    /**
+     * @param $input
+     * @param $model
+     * @return mixed
+     */
+    public function update($input, $model)
+    {
         $model->fill($input);
         $model->save();
 
         return $model;
     }
 
-    public function destroy($id){
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function destroy($id)
+    {
         $model = $this->getById($id);
 
         return $model->delete();

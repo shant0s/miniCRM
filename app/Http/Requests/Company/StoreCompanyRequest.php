@@ -17,18 +17,21 @@ class StoreCompanyRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     * @return array
      */
     public function rules(): array
     {
         return [
-            'name' => 'required | string | unique:companies',
-            'email' => 'email',
+            'name' => 'required | string | unique:companies,name',
+            'email' => 'required | email | | unique:companies,email',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=100,height=100',
         ];
     }
 
-    public function messages()
+    /**
+     * @return string[][]
+     */
+    public function messages(): array
     {
         return[
             'image' => [

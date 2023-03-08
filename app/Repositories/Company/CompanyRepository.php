@@ -9,10 +9,13 @@ class CompanyRepository extends BaseRepository
 {
 
     /**
-     * var Company $company
+     * @var Company $company
      */
     public $company;
 
+    /**
+     * @param Company $company
+     */
     public function __construct(Company $company)
     {
         parent::__construct($company);

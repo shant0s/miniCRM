@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Company\StoreCompanyRequest;
 use App\Http\Requests\Company\UpdateCompanyRequest;
 use App\Services\Company\CompanyService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
+use Throwable;
 
 class CompanyController extends Controller
 {
@@ -18,17 +24,18 @@ class CompanyController extends Controller
 
 
     /**
-     * Display a listing of the company.
+     * @return Application|Factory|View|\Illuminate\Foundation\Application
      */
     public function index()
     {
-        $companies = $this->companyService->getPaginatedList(10);
+        $limit = env('PAGE_LIMIT', 10);
+        $companies = $this->companyService->getPaginatedList($limit);
 
         return view('company.index', compact('companies'));
     }
 
     /**
-     * Show the form for creating a new company.
+     * @return Application|Factory|View|\Illuminate\Foundation\Application
      */
     public function create()
     {
@@ -36,7 +43,9 @@ class CompanyController extends Controller
     }
 
     /**
-     * Store a new company
+     * @param StoreCompanyRequest $request
+     * @return Application|\Illuminate\Foundation\Application|RedirectResponse|Redirector
+     * @throws Throwable
      */
     public function store(StoreCompanyRequest $request)
     {
@@ -46,27 +55,32 @@ class CompanyController extends Controller
     }
 
     /**
-     * Display the specified company.
+     * @param int $id
+     * @return Application|Factory|View|\Illuminate\Foundation\Application
      */
     public function show(int $id)
     {
         $company = $this->companyService->getById($id);
-        
+
         return view('company.view', compact('company'));
     }
 
     /**
-     * Show the form for editing the specified company.
+     * @param int $id
+     * @return Application|Factory|View|\Illuminate\Foundation\Application
      */
     public function edit(int $id)
     {
         $company = $this->companyService->getById($id);
-        
+
         return view('company.edit', compact('company'));
     }
 
     /**
-     * Update the specified company.
+     * @param UpdateCompanyRequest $request
+     * @param int $id
+     * @return Application|\Illuminate\Foundation\Application|RedirectResponse|Redirector
+     * @throws Throwable
      */
     public function update(UpdateCompanyRequest $request, int $id)
     {
@@ -76,11 +90,12 @@ class CompanyController extends Controller
     }
 
     /**
-     * Remove the specified company from storage.
+     * @param int $id
+     * @return Application|\Illuminate\Foundation\Application|RedirectResponse|Redirector
+     * @throws Throwable
      */
     public function destroy(int $id)
     {
-
         $this->companyService->delete($id);
 
         return redirect('company')->with('success', 'Company deleted successfully!!');

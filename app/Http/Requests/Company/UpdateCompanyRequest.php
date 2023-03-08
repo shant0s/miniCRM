@@ -17,13 +17,13 @@ class UpdateCompanyRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     * @return array
      */
     public function rules(): array
     {
         return [
             'name' => 'required | string | unique:companies,name,'.$this->get('id'),
-            'email' => 'required | email',
+            'email' => 'required | email | | unique:companies,email,'.$this->get('id'),
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=100,height=100',
         ];
     }

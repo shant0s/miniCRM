@@ -24,7 +24,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = $this->employeeService->getPaginatedList(10);
+        $limit = env('PAGE_LIMIT', 10);
+        $employees = $this->employeeService->getPaginatedList($limit);
 
         return view('employee.index', compact('employees'));
     }
@@ -55,7 +56,7 @@ class EmployeeController extends Controller
     public function show(int $id)
     {
         $employee = $this->employeeService->getById($id);
-        
+
         return view('employee.view', compact('employee'));
     }
 
@@ -66,7 +67,7 @@ class EmployeeController extends Controller
     {
         $employee = $this->employeeService->getById($id);
         $companies = $this->companyService->pluckAll();
-        
+
         return view('employee.edit', compact('employee', 'companies'));
     }
 
